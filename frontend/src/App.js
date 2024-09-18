@@ -1,29 +1,48 @@
-import React, { useEffect, useState } from 'react';
-import axios from './services/api'; // Usando o serviço de API configurado
+//import logo from './logo.svg';
+import './App.css';
+import { createRoot } from 'react-dom/client';
+import axios from 'axios';
+import { useState, useEffect } from 'react';
+
+
+//document.body.innerHTML = '<div id="root2"></div>';       // Essa linha APAGA todo o html para renderizar o novo conteudo, não usar caso for reaproveitar o HTML existente
+const root = createRoot(document.getElementById('root2'));
+root.render(<h1>Hello, world from the frontend</h1>);
 
 function App() {
-  const [message, setMessage] = useState(''); // Estado para armazenar a mensagem do backend
-  const [error, setError] = useState(''); // Adicionar estado para erros
 
-  useEffect(() => {
-    // Fazer uma requisição GET para a rota "Hello World" do backend
-    axios.get('/hello')
-      .then(response => {
-        setMessage(response.data); // Armazenar a resposta na variável de estado
-      })
-      .catch(error => {
-        console.error('Erro ao buscar mensagem do backend:', error); // Logar o erro no console
-        setError('Erro ao conectar com o backend'); // Atualizar o estado do erro para exibição
-      });
-  }, []);
+  const [people, setPeople] = useState([]);
 
-  return (
-    <div className="App">
-      <h1>Hello World from the frontend!</h1>
-      <p>Mensagem do backend: {message}</p> {/* Exibir a mensagem recebida do backend */}
-      {error && <p style={{ color: 'red' }}>{error}</p>} {/* Exibir a mensagem de erro se houver */}
-    </div>
-  );
+  useEffect(() =>{
+    axios.get('/api').then(res => setPeople(res.data));
+  }, [])
+
+  return people.map((p, index) => {
+    return ( 
+      <div>
+          <p key={index}>{p.id} {p.name} {p.age}</p>
+      </div>
+    )
+  } )
+  // (
+    // <div className="App">
+    //   <header className="App-header">
+    //     <img src={logo} className="App-logo" alt="logo" />
+    //     <p>
+    //       Edit <code>src/App.js</code> and save to reload.
+    //     </p>
+    //     <a
+    //       className="App-link"
+    //       href="https://reactjs.org"
+    //       target="_blank"
+    //       rel="noopener noreferrer"
+    //     >
+    //       Learn React
+    //     </a>
+    //   </header>
+    // </div>
+  // );
 }
+
 
 export default App;

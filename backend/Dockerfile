@@ -1,13 +1,11 @@
-# backend/Dockerfile
-FROM node:18-alpine
+FROM python:3.10-slim
 
-WORKDIR /app
+WORKDIR /api
 
-#COPY package.json package-lock.json ./
-COPY package.json ./
-RUN npm install
+COPY ./requirements.txt /api/requirements.txt
 
-COPY . .
+RUN pip install --no-cache-dir --upgrade -r /api/requirements.txt
 
-EXPOSE 5000
-CMD ["node", "src/index.js"]
+COPY . /api
+
+CMD [ "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000" ]
