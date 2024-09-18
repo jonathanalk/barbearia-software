@@ -11,7 +11,7 @@ class Person(BaseModel):
     age: int
 
 DB: list[Person] = [
-    Person(id=1, name="jonathan", age=30),
+    Person(id=1, name="-teste--", age=30),
     Person(id=2, name="teste---", age=31),
     Person(id=3, name="123-----", age=32),
     Person(id=4, name="asdasd4-", age=33),
